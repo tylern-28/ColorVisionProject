@@ -24,9 +24,9 @@ bool valid = false;
     while (!valid){
 cout << "Enter color one and 3 RGB numbers: ";
 cin >> colorName >> number1 >> number2 >> number3;
- if ((number1 > 0 and number1 < 255) and
-        (number2 > 0 and number2 < 255) and
-        (number3 > 0 and number3 < 255)) {
+ if ((number1 > 0 && number1 < 255) &&
+        (number2 > 0 && number2 < 255) &&
+        (number3 > 0 && number3 < 255)) {
         valid = true;
     } else {
         cout << "Error: enter valid numbers between 0 and 255." << endl;
@@ -34,9 +34,9 @@ cin >> colorName >> number1 >> number2 >> number3;
 
 cout << "Enter color two and 3 RGB numbers: ";
 cin >> colorName2 >> number4 >> number5 >> number6;
-     if ((number4 > 0 and number4 < 255) and
-        (number5 > 0 and number5 < 255) and
-        (number6 > 0 and number6 < 255)) {
+     if ((number4 > 0 && number4 < 255) &&
+        (number5 > 0 && number5 < 255) &&
+        (number6 > 0 && number6 < 255)) {
         valid = true;
     } else {
         cout << "Error: enter valid numbers between 0 and 255." << endl;
