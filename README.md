@@ -1,15 +1,17 @@
-# Replace with your unique project name
+## Project Name
+Colorevaluation project
 
 ## Description
 
 **version 1.0**
 
-Replace with a description of *what* your program does (not *how* it works)
+This project tells the user whiever colors they inputted whether or not it as easy for them to see the colors. In the next segment of the project
+I am thinking about doing specifc color blindesses like deutranopea and things like that.
 
 
-## Developer
+## Name
 
-Replace with your name
+Tyler Nicolay
 
 ## Example
 
@@ -23,5 +25,7 @@ g++ --std=c++11 *.cpp -o cvp
 Here is an example of the program running:
 
 ```
-Replace this with a copy-pasted example of the input/output of your program running.
+Enter color one and 3 RGB numbers: teal 99 37 130
+Enter color two and 3 RGB numbers: purple 88 20 48
+The colors are somewhat similar some viewers may struggle.
 ```
