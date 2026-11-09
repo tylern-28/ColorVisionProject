@@ -12,11 +12,8 @@ void displayHeader();
 bool loadColorPalette(const string& filename, vector<string>& colorPalette);
 void evaluateColorSafety(string color1, string color2, bool& isSafe);
 
-int main()
-{
+int main() {
     string filename = "palette_data.txt";
-    int choice1 = 0;
-    int choice2 = 0;
     bool isSafe = false;
 
     displayHeader();
@@ -31,55 +28,41 @@ int main()
         cout << endl;
         cout << "[File I/O Notice] Could not read file or file is empty. Using default vector palette." << endl;
         colorPalette.clear();
-        colorPalette.push_back("High Contrast Blue");
+        colorPalette.push_back("High-Contrast Blue");
         colorPalette.push_back("Pure White");
         colorPalette.push_back("Amber Yellow");
         colorPalette.push_back("Jet Black");
         colorPalette.push_back("Emerald Green");
     }
 
+   
+    srand(time(0));
 
-    cout << endl;
-    cout << "Available Color Palette:" << endl;
-    for (size_t i = 0; i < colorPalette.size(); ++i){
-        cout << i + 1 << ". " << colorPalette.at(i);
-        
-        if (i < colorPalette.size() - 1){
-            cout << ", ";
-        }
-        else {
-            cout << ".";
-        }
-    }
-    cout << endl;
+    if (colorPalette.size() >= 2) {
+        int index1 = rand() % colorPalette.size();
+        int index2;
+        do {
+            index2 = rand() % colorPalette.size();
+        } while (index1 == index2); 
 
-    cout << endl;
-    cout << "Select two colors to check for colorblind safety (enter numbers 1-" << colorPalette.size() << "):" << endl;
-    cout << "Color 1 choice: ";
-    cin >> choice1;
-    cout << "Color 2 choice: ";
-    cin >> choice2;
-
-    if (choice1 >= 1 && choice1 <= (int)colorPalette.size() && 
-        choice2 >= 1 && choice2 <= (int)colorPalette.size()) {
-        string selectColor1 = colorPalette.at(choice1 - 1);
-        string selectColor2 = colorPalette.at(choice2 - 1);
-        
-        evaluateColorSafety(selectColor1, selectColor2, isSafe);
+        string color1 = colorPalette.at(index1);
+        string color2 = colorPalette.at(index2);
 
         cout << endl;
-        cout << "--- Evaluation Results ---" << endl;
-        cout << "Comparing " << selectColor1 << " and " << selectColor2 << "." << endl;
-        
-        if (isSafe){
-            cout << "Status: SAFE combination for common color vision deficiencies." << endl;
+        cout << "--- Random Evaluation Results ---" << endl;
+        cout << "Comparing " << color1 << " and " << color2 << "." << endl;
+
+        evaluateColorSafety(color1, color2, isSafe);
+
+        if (isSafe) {
+            cout << "Status: SAFE - High contrast and colorblind friendly." << endl;
         }
         else {
             cout << "Status: WARNING - Potential visibility risk or low contrast." << endl;
         }
     }
     else {
-        cout << "Error: Invalid color selection numbers entered." << endl;
+        cout << "Error: Not enough colors in the palette to compare." << endl;
     }
 
     return 0;

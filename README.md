@@ -1,31 +1,41 @@
-## Project Name
-ColorEvaluation project
+# Colorblind-Safe Color Analyzer
 
-## Description
+A C++ command-line application designed to load, manage, and evaluate color palettes for colorblind accessibility. The program reads color data dynamically from an external text file, populates a vector, and performs automated evaluations to test color combinations against common color vision deficiencies (such as Protanopia, Deuteranopia, and Tritanopia).
 
-**version 1.0**
+## Features
 
-This project tells the user whichever colors they inputted whether or not it as easy for them to see the colors. In the next segment of the project
-I am thinking about doing specifc color blindesses like deutranopea and things like that.
+* **File I/O Integration:** Reads color palettes dynamically from an external text file (`palette_data.txt`).
+* **Fallback Handling:** Automatically initializes a default colorblind safe vector palette if the text file is missing or empty.
+* **Randomized Analysis:** Automatically selects and tests two distinct colors from the loaded palette to evaluate contrast and visibility safety.
+* **Modular C++ Design:** Built using clean function prototypes, pass-by-reference parameters, and vector collections.
 
+## Project Structure
 
-## Name
+* `main.cpp`: Contains the main execution loop, file loading function, evaluation logic, and random selection routine.
+* `palette_data.txt`: A plain text file containing a list of color names (one per line) used to populate the program's color palette.
+* `README.md`: Project documentation and usage instructions.
 
-Tyler Nicolay
+## Requirements
 
-## Example
+* A C++ compiler supporting C++11 or later (e.g., `g++`, Clang).
 
-To run the program, give the following commands:
+## Getting Started & Execution
 
-```
-g++ --std=c++11 *.cpp -o cvp
-./cvp
-```
+1. **Set Up the Files:**
+   * Ensure `main.cpp` and `palette_data.txt` are in the same directory/workspace.
+   * Add your desired color names inside `palette_data.txt`, placing each color on its own separate line.
 
-Here is an example of the program running:
+2. **Compile and Run:**
+   * Open the project in your C++ development environment.
+   * Click **Compile and Run** to build and execute the program.
 
-```
-Enter color one and 3 RGB numbers: teal 99 37 130
-Enter color two and 3 RGB numbers: purple 88 20 48
-The colors are somewhat similar some viewers may struggle.
-```
+3. **Output Example:**
+   ========================================
+         COLORBLIND-SAFE COLOR ANALYZER     
+   ========================================
+
+   [File I/O Success] Loaded colors from palette_data.txt.
+
+   --- Random Evaluation Results ---
+   Comparing Jet Black and Pure White.
+   Status: SAFE - High contrast and colorblind friendly.
