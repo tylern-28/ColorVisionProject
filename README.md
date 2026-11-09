@@ -15,9 +15,6 @@ A C++ command-line application designed to load, manage, and evaluate color pale
 * `palette_data.txt`: A plain text file containing a list of color names (one per line) used to populate the program's color palette.
 * `README.md`: Project documentation and usage instructions.
 
-## Requirements
-
-* A C++ compiler supporting C++11 or later (e.g., `g++`, Clang).
 
 ## Getting Started & Execution
 
