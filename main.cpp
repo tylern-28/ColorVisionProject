@@ -1,89 +1,134 @@
 #include <iostream>
+#include <vector>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
-int main() {
+const int MAX_COLORS = 12;
+const string DEFAULT_COLOR = "High-Contrast Blue";
 
-int number1;
-int number2;
-int number3;
-int number4;
-int number5;
-int number6;
-int difference;
-int redDifference;
-int greenDifference;
-int blueDifference;
+void displayHeader();
+bool loadColorPalette(const string& filename, vector<string>& colorPalette);
+void evaluateColorSafety(string color1, string color2, bool& isSafe);
 
-string colorName;
-string colorName2;
+int main()
+{
+    string filename = "palette_data.txt";
+    int choice1 = 0;
+    int choice2 = 0;
+    bool isSafe = false;
 
-bool valid = false;
+    displayHeader();
 
-    while (!valid){
-cout << "Enter color one and 3 RGB numbers: ";
-cin >> colorName >> number1 >> number2 >> number3;
- if ((number1 > 0 && number1 < 255) &&
-        (number2 > 0 && number2 < 255) &&
-        (number3 > 0 && number3 < 255)) {
-        valid = true;
-    } else {
-        cout << "Error: enter valid numbers between 0 and 255." << endl;
+    vector<string> colorPalette;
+
+    if (loadColorPalette(filename, colorPalette)) {
+        cout << endl;
+        cout << "[File I/O Success] Loaded colors from " << filename << "." << endl;
     }
-
-cout << "Enter color two and 3 RGB numbers: ";
-cin >> colorName2 >> number4 >> number5 >> number6;
-     if ((number4 > 0 && number4 < 255) &&
-        (number5 > 0 && number5 < 255) &&
-        (number6 > 0 && number6 < 255)) {
-        valid = true;
-    } else {
-        cout << "Error: enter valid numbers between 0 and 255." << endl;
-    }
+    else {
+        cout << endl;
+        cout << "[File I/O Notice] Could not read file or file is empty. Using default vector palette." << endl;
+        colorPalette.clear();
+        colorPalette.push_back("High Contrast Blue");
+        colorPalette.push_back("Pure White");
+        colorPalette.push_back("Amber Yellow");
+        colorPalette.push_back("Jet Black");
+        colorPalette.push_back("Emerald Green");
     }
 
 
-        int simulateRedFirst = (number1 + number2) / 2;
-        int simulatedGreenFirst = simulateRedFirst;
-        int simulatedBlueFirst = number3;
-
-        int simulatedRed2 = (number4 + number5) / 2;
-        int simulatedGreen2 = simulatedRed2;
-        int simulatedBlue2 = number6;
-
-
-
-
-redDifference = number1 - number4;
-greenDifference = number2 - number5;
-blueDifference = number3 - number6;
-
-    if (redDifference < 0) {
-        redDifference = redDifference * -1;
+    cout << endl;
+    cout << "Available Color Palette:" << endl;
+    for (size_t i = 0; i < colorPalette.size(); ++i){
+        cout << i + 1 << ". " << colorPalette.at(i);
+        
+        if (i < colorPalette.size() - 1){
+            cout << ", ";
+        }
+        else {
+            cout << ".";
+        }
     }
-    if (greenDifference < 0) {
-        greenDifference = greenDifference * -1;
+    cout << endl;
+
+    cout << endl;
+    cout << "Select two colors to check for colorblind safety (enter numbers 1-" << colorPalette.size() << "):" << endl;
+    cout << "Color 1 choice: ";
+    cin >> choice1;
+    cout << "Color 2 choice: ";
+    cin >> choice2;
+
+    if (choice1 >= 1 && choice1 <= (int)colorPalette.size() && 
+        choice2 >= 1 && choice2 <= (int)colorPalette.size()) {
+        string selectColor1 = colorPalette.at(choice1 - 1);
+        string selectColor2 = colorPalette.at(choice2 - 1);
+        
+        evaluateColorSafety(selectColor1, selectColor2, isSafe);
+
+        cout << endl;
+        cout << "--- Evaluation Results ---" << endl;
+        cout << "Comparing " << selectColor1 << " and " << selectColor2 << "." << endl;
+        
+        if (isSafe){
+            cout << "Status: SAFE combination for common color vision deficiencies." << endl;
+        }
+        else {
+            cout << "Status: WARNING - Potential visibility risk or low contrast." << endl;
+        }
     }
-    if (blueDifference < 0) {
-        blueDifference = blueDifference * -1;
+    else {
+        cout << "Error: Invalid color selection numbers entered." << endl;
     }
 
-    difference = (redDifference + greenDifference + blueDifference) / 3;
+    return 0;
+}
 
-
-
-if (difference < 30) {
-    cout << "The colors are nearly identical high risk of confusion.";
-} else if (difference < 80) {
-    cout << "The colors are somewhat similar some viewers may struggle.";
-} else if (difference < 140) {
-    cout << "The colors are moderately distinct.";
-} else {
-    cout << "The colors are clearly distinguishable.";
+void displayHeader() {
+    cout << "========================================" << endl;
+    cout << "    COLORBLIND-SAFE COLOR ANALYZER      " << endl;
+    cout << "========================================" << endl;
 }
 
 
+bool loadColorPalette(const string& filename, vector<string>& colorPalette) {
+    ifstream inFile(filename);
+    if (!inFile.is_open()){
+        return false;
+    }
+    
+    colorPalette.clear();
+    string colorName;
+    while (getline(inFile, colorName)){
+        if (!colorName.empty()){
+            colorPalette.push_back(colorName); 
+        }
+    }
+    inFile.close();
+    if (colorPalette.empty()){
+        return false;
+    }
+    
+    return true;
+}
 
-  return 0;
+
+void evaluateColorSafety(string color1, string color2, bool& isSafe) {
+
+    if ((color1 == "High Contrast Blue" && color2 == "Pure White") || 
+        (color1 == "Pure White" && color2 == "High Contrast Blue") ||
+        (color1 == "Amber Yellow" && color2 == "Jet Black") ||
+        (color1 == "Jet Black" && color2 == "Amber Yellow") ||
+        (color1 == "Deep Navy" && color2 == "Pure White") ||
+        (color1 == "Pure White" && color2 == "Deep Navy") ||
+        (color1 == "Bright Orange" && color2 == "Jet Black") ||
+        (color1 == "Jet Black" && color2 == "Bright Orange") ||
+        (color1 == "Emerald Green" && color2 == "Pure White") ||
+        (color1 == "Pure White" && color2 == "Emerald Green")){
+        isSafe = true;
+    }
+    else {
+        isSafe = false;
+    }
 }
